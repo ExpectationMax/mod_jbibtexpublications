@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="3.1.0" client="site" method="upgrade">
+    <name>jbibtex publications</name>
+    <author>Max Horn</author>
+    <version>1.0.0</version>
+    <description>A simple module that displays publications of a provided bibtex string</description>
+    <files>
+        <filename>mod_jbibtexpublications.xml</filename>
+        <filename module="mod_jbibtexpublications">mod_jbibtexpublications.php</filename>
+        <filename>index.html</filename>
+        <filename>helper.php</filename>
+        <filename>tmpl/default.php</filename>
+        <filename>lib/bibtexParse/LICENSE</filename>
+		<filename>lib/bibtexParse/PARSECREATORS.php</filename>
+		<filename>lib/bibtexParse/PARSEENTRIES.php</filename>
+		<filename>lib/bibtexParse/README</filename>
+    </files>
+    <config>
+	<fields name="params">
+		<fieldset name="basic">
+			<field name="bibtexsource" type="textarea" default="default" label="The bibtex source" description="Bibtex source text to be displayed" rows="50" cols="30" filter="raw"/>
+			<field name="nonefound" type="textarea" default="default" label="Display if no publications were found" description="Text to display if no publications were found" rows="10" cols="30" filter="raw"/>
+		</fieldset>
+	</fields>
+    </config>
+</extension>
