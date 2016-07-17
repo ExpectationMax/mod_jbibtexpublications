@@ -23,7 +23,7 @@ foreach($publications as $publ) {
 </table>
 <?php
 } else {
-echo $parms->get('nonefound', '');
+echo $params->get('nonefound', '');
 }
 
 ?>

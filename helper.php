@@ -11,6 +11,47 @@
 require_once dirname(__FILE__) . '/lib/bibtexParse/PARSEENTRIES.php';
 require_once dirname(__FILE__) . '/lib/bibtexParse/PARSECREATORS.php';
 
+class Filter {
+        private $filterfield;
+		private $filtervalue;
+		
+        function __construct($field, $value) {
+                $this->filterfield = $field;
+				$this->filtervalue = $value;
+				echo "inited Filter with: ".$field.' '.$value;
+        }
+
+        function keep($i) {
+			if(is_array($i))
+				$keep = in_array($this->filtervalue, $i[$this->filterfield]);
+			else
+                $keep = $i[$this->filterfield] == $this->filtervalue;
+				
+			echo 'Keep '.$i.': '.$keep;
+			return $keep;
+        }
+}
+
+function startsWith($haystack, $needle) {
+    return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== false;
+}
+
+function endsWith($haystack, $needle) {
+    return $needle === "" || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack, $needle, $temp) !== false);
+}
+
+
+function parse_arrays($publ) {
+	foreach($publ as $key => $value) {
+		if(is_string($value) && startsWith($value, '[') && endsWith($value, ']')) {
+			$striped = trim($value, '[]');
+			$elements = array_map('trim', explode(',', $striped));
+			$publ[$key] = $elements;
+		}
+	}
+	return $publ;
+}
+
 class ModBibTexPublicationsHelper
 {
     /**
@@ -30,9 +71,16 @@ class ModBibTexPublicationsHelper
 		$parse->extractEntries();
 		list($preamble, $strings, $entries, $undefinedStrings) = $parse->returnArrays();
 		$creatorparser = new PARSECREATORS();
+		
 		foreach($entries as &$entry) {
 			$entry['author'] = $creatorparser->parse($entry["author"]);
+			$entry = parse_arrays($entry);
 		}
+		
+		if($params->get("filterfield", "") != "" && $params->get("filtervalue", "") != "") {
+			$entries = array_filter($entries, array( new Filter( $params->get("filterfield"), $params->get("filtervalue")), "keep"));
+			echo "Filtering!";
+		} else {echo "Not filtering!";}
 		return $entries;
     }
 }
