@@ -18,9 +18,12 @@
     <config>
 	<fields name="params">
 		<fieldset name="basic">
-			<field name="bibtexsource" type="textarea" default="default" label="The bibtex source" description="Bibtex source text to be displayed" rows="50" cols="30" filter="raw"/>
-			<field name="nonefound" type="textarea" default="default" label="Display if no publications were found" description="Text to display if no publications were found" rows="10" cols="30" filter="raw"/>
+			<field name="bibtexsource" type="textarea" default="" label="The bibtex source" description="Bibtex source text to be displayed" rows="30" cols="30" filter="raw"/>
+			<field name="nonefound" type="textarea" default="" label="Display if no publications were found" description="Text to display if no publications were found" rows="10" cols="30" filter="raw"/>
+			<field name="filterfield" type="text" default="" label="Filter field" description="Field used for filtering"/>
+			<field name="filtervalue" type="text" default="" label="Filter value" description="Filter for filter field containing this value."/>
 		</fieldset>
+		
 	</fields>
     </config>
 </extension>

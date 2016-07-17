@@ -18,17 +18,13 @@ class Filter {
         function __construct($field, $value) {
                 $this->filterfield = $field;
 				$this->filtervalue = $value;
-				echo "inited Filter with: ".$field.' '.$value;
         }
 
         function keep($i) {
 			if(is_array($i))
-				$keep = in_array($this->filtervalue, $i[$this->filterfield]);
+				return in_array($this->filtervalue, $i[$this->filterfield]);
 			else
-                $keep = $i[$this->filterfield] == $this->filtervalue;
-				
-			echo 'Keep '.$i.': '.$keep;
-			return $keep;
+                return $i[$this->filterfield] == $this->filtervalue;
         }
 }
 
